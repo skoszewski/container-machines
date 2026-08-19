@@ -1,0 +1,12 @@
+# Install Azure CLI from the Microsoft repository
+ARG UBUNTU_CODENAME
+
+RUN set -eux; \
+    mkdir -p /etc/apt/keyrings; \
+    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
+        | gpg --dearmor > /etc/apt/keyrings/microsoft.gpg; \
+    chmod go+r /etc/apt/keyrings/microsoft.gpg; \
+    printf 'Types: deb\nURIs: https://packages.microsoft.com/repos/azure-cli/\nSuites: %s\nComponents: main\nArchitectures: arm64\nSigned-by: /etc/apt/keyrings/microsoft.gpg\n' "${UBUNTU_CODENAME}" > /etc/apt/sources.list.d/azure-cli.sources; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends azure-cli; \
+    rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,17 @@
+name: cloud
+description: Azure CLI and Google Cloud CLI container machine
+args:
+  BASE_IMAGE: ubuntu:24.04
+  NODE_VERSION: 24.19.0
+  GCLOUD_PROFILE_ROOT: $HOME/.config/gcloud.d
+  CLOUDSDK_CONFIG: $HOME/.config/gcloud
+  AZURECLI_PROFILE_ROOT: $HOME/.azure.d
+  AZURE_CONFIG_DIR: $HOME/.azure
+components:
+  - ubuntu
+  - nodejs
+  - azurecli
+  - gcloud
+  - terraform
+  - powershell
+  - cloud-select

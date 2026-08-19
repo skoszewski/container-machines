@@ -1,0 +1,9 @@
+# Install NodeJS from the official tarball
+ARG NODE_VERSION
+
+RUN curl -fsSL -o /tmp/node.tar.gz https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz \
+    && tar -xC /opt -f /tmp/node.tar.gz \
+    && rm -f /tmp/node.tar.gz
+
+# Set up environment path to make the NodeJS binaries globally available
+ENV PATH="/opt/node-v${NODE_VERSION}-linux-arm64/bin:${PATH}"

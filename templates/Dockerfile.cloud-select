@@ -1,0 +1,13 @@
+# Add the combined cloud-select script to the image; the profile roots are
+# exported before it is sourced, so its own defaults do not take over.
+ARG GCLOUD_PROFILE_ROOT
+ARG CLOUDSDK_CONFIG
+ARG AZURECLI_PROFILE_ROOT
+ARG AZURE_CONFIG_DIR
+
+COPY cloud-select.sh /usr/local/share/cloud-select/cloud-select.sh
+RUN printf '\nexport GCLOUD_PROFILE_ROOT=%q\n' "$GCLOUD_PROFILE_ROOT" >> /etc/bash.bashrc && \
+    printf 'export CLOUDSDK_CONFIG=%q\n' "$CLOUDSDK_CONFIG" >> /etc/bash.bashrc && \
+    printf 'export AZURECLI_PROFILE_ROOT=%q\n' "$AZURECLI_PROFILE_ROOT" >> /etc/bash.bashrc && \
+    printf 'export AZURE_CONFIG_DIR=%q\n' "$AZURE_CONFIG_DIR" >> /etc/bash.bashrc && \
+    printf '%s\n' "source /usr/local/share/cloud-select/cloud-select.sh" >> /etc/bash.bashrc

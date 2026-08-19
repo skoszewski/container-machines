@@ -1,0 +1,11 @@
+# Install PowerShell from the latest release published on GitHub
+RUN set -eux; \
+    apt-get update; \
+    DOWNLOAD_URL="$(curl -fsS https://api.github.com/repos/PowerShell/PowerShell/releases/latest \
+        | jq -r '.assets[].browser_download_url | select(test("powershell-lts_.*arm64.deb"))')"; \
+    [ -n "$DOWNLOAD_URL" ] || { echo "No PowerShell arm64 asset in the latest release" >&2; exit 1; }; \
+    printf '==> Downloading PowerShell from: %s\n' "$DOWNLOAD_URL"; \
+    curl -fsSL -o /tmp/powershell.deb "$DOWNLOAD_URL"; \
+    apt-get install -y /tmp/powershell.deb; \
+    rm -f /tmp/powershell.deb; \
+    rm -rf /var/lib/apt/lists/*

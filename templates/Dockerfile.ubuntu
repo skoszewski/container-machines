@@ -1,0 +1,31 @@
+# Base tooling shared by every machine image.
+RUN set -eux; \
+    apt-get update; \
+    apt-get upgrade -y; \
+    apt-get install -y --no-install-recommends \
+        git \
+        binutils \
+        bash-completion \
+        neovim \
+        pwgen \
+        gnupg2 \
+        tzdata \
+        pkg-config \
+        wget \
+        zip unzip \
+        gpg tree \
+        software-properties-common \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        jq \
+        python3 \
+        python3-venv \
+        python3-pip \
+        libkrb5-3 \
+        zlib1g \
+        debsums \
+        liblttng-ust1 \
+        libssl3; \
+    apt-get install -y libicu78 || apt-get install -y libicu76 || apt-get install -y libicu74; \
+    rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,18 @@
+# Install Google Cloud SDK by downloading the archive and extracting to /opt
+RUN set -eux; \
+    DOWNLOAD_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz"; \
+    printf '==> Downloading Google Cloud SDK from: %s\n' "$DOWNLOAD_URL"; \
+    curl -fsSL -o /tmp/google-cloud-cli.tar.gz "$DOWNLOAD_URL"; \
+    tar -xC /opt -f /tmp/google-cloud-cli.tar.gz; \
+    /opt/google-cloud-sdk/install.sh \
+        --quiet \
+        --usage-reporting=false \
+        --path-update=false \
+        --command-completion=false; \
+    rm -f /tmp/google-cloud-cli.tar.gz; \
+    # Set up system-wide PATH and completion
+    printf '\nif [ -f "/opt/google-cloud-sdk/path.bash.inc" ]; then . "/opt/google-cloud-sdk/path.bash.inc"; fi\n' >> /etc/bash.bashrc; \
+    printf 'if [ -f "/opt/google-cloud-sdk/completion.bash.inc" ]; then . "/opt/google-cloud-sdk/completion.bash.inc"; fi\n' >> /etc/bash.bashrc
+
+# Set up environment path to make gcloud CLI binaries globally available
+ENV PATH="/opt/google-cloud-sdk/bin:${PATH}"
